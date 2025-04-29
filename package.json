@@ -1,0 +1,46 @@
+{
+  "name": "@xwbx/dify-openapi-ts",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.9.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/daflyinbed/dify-client#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daflyinbed/dify-client.git"
+  },
+  "bugs": "https://github.com/daflyinbed/dify-client/issues",
+  "keywords": ["dify"],
+  "exports": {
+    "./app_advanced_chat": "./generated/app_advanced_chat.ts",
+    "./app_chat": "./generated/app_chat.ts",
+    "./app_generation": "./generated/app_generation.ts",
+    "./app_workflow": "./generated/app_workflow.ts",
+    "./external_knowledge_base": "./generated/external_knowledge_base.ts",
+    "./knowledge_base": "./generated/knowledge_base.ts",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["generated"],
+  "scripts": {
+    "prepare": "node .husky/install.mjs",
+    "generate": "openapi-typescript"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.8",
+    "@xwbx/eslint-config": "0.4.1",
+    "bumpp": "10.1.0",
+    "eslint": "9.25.1",
+    "husky": "9.1.7",
+    "lint-staged": "15.5.1",
+    "openapi-typescript": "^7.6.1",
+    "typescript": "5.8.3"
+  },
+  "lint-staged": {
+    "*.{json,js,ts,jsx,tsx,vue,fes,wxa}": "eslint --fix"
+  }
+}

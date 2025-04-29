@@ -1,0 +1,1533 @@
+overlay: 1.0.0
+info:
+  title: "English translation overlay for Dify Knowledge Base API"
+  version: "1.0.0"
+extends: ../knowledge_base.zh.yaml
+actions:
+  - target: $.info
+    update:
+      title: "Dify Knowledge Base API"
+      description: |
+        Dify Knowledge Base API provides a series of interfaces for managing knowledge bases, documents, and retrieval functions.
+        All API requests require a knowledge base level API-Key in the Authorization HTTP Header.
+
+  - target: $.servers[0]
+    update:
+      description: "Dify API Server"
+
+  - target: $.servers[1].variables.api_url
+    update:
+      description: "Custom API server URL"
+
+  - target: $.components.schemas.Error.properties.code
+    update:
+      description: "Error code"
+
+  - target: $.components.schemas.Error.properties.status
+    update:
+      description: "HTTP status code"
+
+  - target: $.components.schemas.Error.properties.message
+    update:
+      description: "Error message description"
+
+  - target: $.components.schemas.Dataset.properties.id
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.components.schemas.Dataset.properties.name
+    update:
+      description: "Knowledge Base name"
+
+  - target: $.components.schemas.Dataset.properties.description
+    update:
+      description: "Knowledge Base description"
+
+  - target: $.components.schemas.Dataset.properties.provider
+    update:
+      description: "Knowledge Base provider"
+
+  - target: $.components.schemas.Dataset.properties.permission
+    update:
+      description: "Access permission"
+
+  - target: $.components.schemas.Dataset.properties.data_source_type
+    update:
+      description: "Data source type"
+
+  - target: $.components.schemas.Dataset.properties.indexing_technique
+    update:
+      description: "Indexing technique"
+
+  - target: $.components.schemas.Dataset.properties.app_count
+    update:
+      description: "Number of applications"
+
+  - target: $.components.schemas.Dataset.properties.document_count
+    update:
+      description: "Number of documents"
+
+  - target: $.components.schemas.Dataset.properties.word_count
+    update:
+      description: "Word count"
+
+  - target: $.components.schemas.Dataset.properties.created_by
+    update:
+      description: "Creator ID"
+
+  - target: $.components.schemas.Dataset.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.Dataset.properties.updated_by
+    update:
+      description: "Last updated by ID"
+
+  - target: $.components.schemas.Dataset.properties.updated_at
+    update:
+      description: "Last updated timestamp"
+
+  - target: $.components.schemas.Dataset.properties.embedding_model
+    update:
+      description: "Embedding model name"
+
+  - target: $.components.schemas.Dataset.properties.embedding_model_provider
+    update:
+      description: "Embedding model provider"
+
+  - target: $.components.schemas.Dataset.properties.embedding_available
+    update:
+      description: "Whether embedding is available"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict
+    update:
+      description: "Retrieval model configuration"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.search_method
+    update:
+      description: "Search method"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.reranking_enable
+    update:
+      description: "Whether reranking is enabled"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.reranking_mode
+    update:
+      description: "Reranking mode"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.reranking_model
+    update:
+      description: "Reranking model"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.reranking_model.properties.reranking_provider_name
+    update:
+      description: "Reranking model provider"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.reranking_model.properties.reranking_model_name
+    update:
+      description: "Reranking model name"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.weights
+    update:
+      description: "Weights"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.top_k
+    update:
+      description: "Number of results to return"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.score_threshold_enabled
+    update:
+      description: "Whether score threshold is enabled"
+
+  - target: $.components.schemas.Dataset.properties.retrieval_model_dict.properties.score_threshold
+    update:
+      description: "Score threshold"
+
+  - target: $.components.schemas.Dataset.properties.tags
+    update:
+      description: "Tags list"
+
+  - target: $.components.schemas.Dataset.properties.doc_form
+    update:
+      description: "Document form"
+
+  - target: $.components.schemas.Dataset.properties.external_knowledge_info
+    update:
+      description: "External knowledge information"
+
+  - target: $.components.schemas.Dataset.properties.external_knowledge_info.properties.external_knowledge_id
+    update:
+      description: "External knowledge ID"
+
+  - target: $.components.schemas.Dataset.properties.external_knowledge_info.properties.external_knowledge_api_id
+    update:
+      description: "External knowledge API ID"
+
+  - target: $.components.schemas.Dataset.properties.external_knowledge_info.properties.external_knowledge_api_name
+    update:
+      description: "External knowledge API name"
+
+  - target: $.components.schemas.Dataset.properties.external_knowledge_info.properties.external_knowledge_api_endpoint
+    update:
+      description: "External knowledge API endpoint"
+
+  - target: $.components.schemas.Dataset.properties.external_retrieval_model
+    update:
+      description: "External retrieval model"
+
+  - target: $.components.schemas.Dataset.properties.external_retrieval_model.properties.top_k
+    update:
+      description: "Number of results to return"
+
+  - target: $.components.schemas.Dataset.properties.external_retrieval_model.properties.score_threshold
+    update:
+      description: "Score threshold"
+
+  - target: $.components.schemas.Dataset.properties.external_retrieval_model.properties.score_threshold_enabled
+    update:
+      description: "Whether score threshold is enabled"
+
+  - target: $.components.schemas.DatasetList.properties.has_more
+    update:
+      description: "Whether there is more data"
+
+  - target: $.components.schemas.DatasetList.properties.limit
+    update:
+      description: "Page size limit"
+
+  - target: $.components.schemas.DatasetList.properties.total
+    update:
+      description: "Total record count"
+
+  - target: $.components.schemas.DatasetList.properties.page
+    update:
+      description: "Current page number"
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.name
+    update:
+      description: "Knowledge Base name (required)"
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.description
+    update:
+      description: "Knowledge Base description (optional)"
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.indexing_technique
+    update:
+      description: |
+        Indexing mode (optional, recommended)
+        - high_quality: High quality
+        - economy: Economy
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.permission
+    update:
+      description: |
+        Permission (optional, default only_me)
+        - only_me: Only me
+        - all_team_members: All team members
+        - partial_members: Partial team members
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.provider
+    update:
+      description: |
+        Provider (optional, default vendor)
+        - vendor: Upload files
+        - external: External knowledge base
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.external_knowledge_api_id
+    update:
+      description: "External knowledge API_ID (optional)"
+
+  - target: $.components.schemas.CreateDatasetRequest.properties.external_knowledge_id
+    update:
+      description: "External knowledge ID (optional)"
+
+  - target: $.components.schemas.RetrievalModel.properties.search_method
+    update:
+      description: |
+        Search method:
+        - keyword_search: Keyword search
+        - semantic_search: Semantic search
+        - full_text_search: Full text search
+        - hybrid_search: Hybrid search
+
+  - target: $.components.schemas.RetrievalModel.properties.reranking_enable
+    update:
+      description: "Whether to enable Reranking, optional, required if retrieval mode is semantic_search or hybrid_search"
+
+  - target: $.components.schemas.RetrievalModel.properties.reranking_model
+    update:
+      description: "Rerank model configuration, optional, required if reranking is enabled"
+
+  - target: $.components.schemas.RetrievalModel.properties.reranking_model.properties.reranking_provider_name
+    update:
+      description: "Rerank model provider"
+
+  - target: $.components.schemas.RetrievalModel.properties.reranking_model.properties.reranking_model_name
+    update:
+      description: "Rerank model name"
+
+  - target: $.components.schemas.RetrievalModel.properties.weights
+    update:
+      description: "Weight setting for semantic search in hybrid search mode"
+
+  - target: $.components.schemas.RetrievalModel.properties.top_k
+    update:
+      description: "Number of results returned, optional"
+
+  - target: $.components.schemas.RetrievalModel.properties.score_threshold_enabled
+    update:
+      description: "Whether to enable score threshold"
+
+  - target: $.components.schemas.RetrievalModel.properties.score_threshold
+    update:
+      description: "Score threshold"
+
+  - target: $.components.schemas.ProcessRule.properties.mode
+    update:
+      description: "Cleaning and segmentation mode"
+
+  - target: $.components.schemas.ProcessRule.properties.rules
+    update:
+      description: "Custom rules (empty for automatic mode)"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.pre_processing_rules
+    update:
+      description: "Pre-processing rules"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.pre_processing_rules.items
+    update:
+      description: "Pre-processing rules list"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.pre_processing_rules.items.properties.id
+    update:
+      description: "Unique identifier for preprocessing rule"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.pre_processing_rules.items.properties.enabled
+    update:
+      description: "Whether this rule is selected"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.segmentation
+    update:
+      description: "Segmentation configuration"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.segmentation.properties.separator
+    update:
+      description: "Custom segmentation identifier"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.segmentation.properties.max_tokens
+    update:
+      description: "Maximum length (tokens)"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.parent_mode
+    update:
+      description: "Parent segment recall mode"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.subchunk_segmentation
+    update:
+      description: "Sub-segment configuration"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.subchunk_segmentation.properties.separator
+    update:
+      description: "Segmentation identifier"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.subchunk_segmentation.properties.max_tokens
+    update:
+      description: "Maximum length (tokens)"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.subchunk_segmentation.properties.chunk_overlap
+    update:
+      description: "Segment overlap length"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.pre_processing_rules.items.properties.name
+    update:
+      description: "Rule name"
+
+  - target: $.components.schemas.Document.properties.id
+    update:
+      description: "Document ID"
+
+  - target: $.components.schemas.Document.properties.position
+    update:
+      description: "Position"
+
+  - target: $.components.schemas.Document.properties.data_source_type
+    update:
+      description: "Data source type"
+
+  - target: $.components.schemas.Document.properties.data_source_info
+    update:
+      description: "Data source information"
+
+  - target: $.components.schemas.Document.properties.data_source_info.properties.upload_file_id
+    update:
+      description: "Upload file ID"
+
+  - target: $.components.schemas.Document.properties.dataset_process_rule_id
+    update:
+      description: "Dataset process rule ID"
+
+  - target: $.components.schemas.Document.properties.name
+    update:
+      description: "Document name"
+
+  - target: $.components.schemas.Document.properties.created_from
+    update:
+      description: "Created from"
+
+  - target: $.components.schemas.Document.properties.created_by
+    update:
+      description: "Creator ID"
+
+  - target: $.components.schemas.Document.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.Document.properties.tokens
+    update:
+      description: "Token count"
+
+  - target: $.components.schemas.Document.properties.indexing_status
+    update:
+      description: "Indexing status"
+
+  - target: $.components.schemas.Document.properties.error
+    update:
+      description: "Error message"
+
+  - target: $.components.schemas.Document.properties.enabled
+    update:
+      description: "Whether enabled"
+
+  - target: $.components.schemas.Document.properties.disabled_at
+    update:
+      description: "Disabled timestamp"
+
+  - target: $.components.schemas.Document.properties.disabled_by
+    update:
+      description: "Disabled by user ID"
+
+  - target: $.components.schemas.Document.properties.updated_at
+    update:
+      description: "Last updated timestamp"
+
+  - target: $.components.schemas.Document.properties.archived
+    update:
+      description: "Whether archived"
+
+  - target: $.components.schemas.Document.properties.display_status
+    update:
+      description: "Display status"
+
+  - target: $.components.schemas.Document.properties.word_count
+    update:
+      description: "Word count"
+
+  - target: $.components.schemas.Document.properties.hit_count
+    update:
+      description: "Hit count"
+
+  - target: $.components.schemas.Document.properties.doc_form
+    update:
+      description: "Document form"
+
+  - target: $.components.schemas.Document.properties.dataset_id
+    update:
+      description: "Associated knowledge base ID"
+
+  - target: $.components.schemas.Document.properties.segment_count
+    update:
+      description: "Number of segments"
+
+  - target: $.components.schemas.Document.properties.batch
+    update:
+      description: "Batch number"
+
+  - target: $.components.schemas.Segment.properties.id
+    update:
+      description: "Segment ID"
+
+  - target: $.components.schemas.Segment.properties.position
+    update:
+      description: "Position"
+
+  - target: $.components.schemas.Segment.properties.document_id
+    update:
+      description: "Document ID"
+
+  - target: $.components.schemas.Segment.properties.content
+    update:
+      description: "Content"
+
+  - target: $.components.schemas.Segment.properties.answer
+    update:
+      description: "Answer"
+
+  - target: $.components.schemas.Segment.properties.word_count
+    update:
+      description: "Word count"
+
+  - target: $.components.schemas.Segment.properties.tokens
+    update:
+      description: "Token count"
+
+  - target: $.components.schemas.Segment.properties.keywords
+    update:
+      description: "Keywords"
+
+  - target: $.components.schemas.Segment.properties.index_node_id
+    update:
+      description: "Index node ID"
+
+  - target: $.components.schemas.Segment.properties.index_node_hash
+    update:
+      description: "Index node hash"
+
+  - target: $.components.schemas.Segment.properties.hit_count
+    update:
+      description: "Hit count"
+
+  - target: $.components.schemas.Segment.properties.enabled
+    update:
+      description: "Whether enabled"
+
+  - target: $.components.schemas.Segment.properties.disabled_at
+    update:
+      description: "Disabled timestamp"
+
+  - target: $.components.schemas.Segment.properties.disabled_by
+    update:
+      description: "Disabled by user ID"
+
+  - target: $.components.schemas.Segment.properties.status
+    update:
+      description: "Status"
+
+  - target: $.components.schemas.Segment.properties.created_by
+    update:
+      description: "Creator ID"
+
+  - target: $.components.schemas.Segment.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.Segment.properties.indexing_at
+    update:
+      description: "Indexing timestamp"
+
+  - target: $.components.schemas.Segment.properties.completed_at
+    update:
+      description: "Completion timestamp"
+
+  - target: $.components.schemas.Segment.properties.error
+    update:
+      description: "Error message"
+
+  - target: $.components.schemas.Segment.properties.stopped_at
+    update:
+      description: "Stop timestamp"
+
+  - target: $.components.schemas.UploadFile.properties.id
+    update:
+      description: "File ID"
+
+  - target: $.components.schemas.UploadFile.properties.name
+    update:
+      description: "File name"
+
+  - target: $.components.schemas.UploadFile.properties.size
+    update:
+      description: "File size"
+
+  - target: $.components.schemas.UploadFile.properties.extension
+    update:
+      description: "File extension"
+
+  - target: $.components.schemas.UploadFile.properties.url
+    update:
+      description: "Preview URL"
+
+  - target: $.components.schemas.UploadFile.properties.download_url
+    update:
+      description: "Download URL"
+
+  - target: $.components.schemas.UploadFile.properties.mime_type
+    update:
+      description: "MIME type"
+
+  - target: $.components.schemas.UploadFile.properties.created_by
+    update:
+      description: "Creator ID"
+
+  - target: $.components.schemas.UploadFile.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData
+    update:
+      description: |
+        Document configuration information in JSON string format, including the following fields:
+        - original_document_id: Source document ID (optional), used for re-uploading or modifying document configuration
+        - indexing_technique: Indexing method (high_quality/economy)
+        - doc_form: Indexing content form (text_model/hierarchical_model/qa_model)
+        - doc_language: Document language (required for Q&A mode)
+        - process_rule: Processing rules
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.original_document_id
+    update:
+      description: "Source document ID, used for re-uploading or modifying document configuration"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.indexing_technique
+    update:
+      description: "Indexing technique"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.doc_form
+    update:
+      description: "Document form"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.doc_language
+    update:
+      description: "Document language (required for Q&A mode)"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.process_rule
+    update:
+      description: "Processing rules"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.retrieval_model
+    update:
+      description: "Retrieval model configuration"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.embedding_model
+    update:
+      description: "Embedding model name"
+
+  - target: $.components.schemas.CreateDocumentByFileRequestData.properties.embedding_model_provider
+    update:
+      description: "Embedding model provider"
+
+  - target: $.paths['/datasets'].post
+    update:
+      summary: "Create Empty Knowledge Base"
+      description: "Create a new empty knowledge base"
+
+  - target: $.paths['/datasets'].get
+    update:
+      summary: "Get Knowledge Base List"
+      description: "Get a list of all knowledge bases"
+
+  - target: $.paths['/datasets/{dataset_id}'].get
+    update:
+      summary: "View Knowledge Base Details"
+      description: "Get detailed information about a specific knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}'].get.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}'].get.responses['200'].description
+    update: "Successfully retrieved knowledge base details"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch
+    update:
+      summary: "Update Knowledge Base Details"
+      description: "Modify details of a specific knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.name.description
+    update: "Knowledge Base name (optional)"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.indexing_technique.description
+    update: |
+      Indexing mode (optional, recommended)
+      - high_quality: High quality
+      - economy: Economy
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.permission.description
+    update: |
+      Permission (optional, default only_me)
+      - only_me: Only me
+      - all_team_members: All team members
+      - partial_members: Partial team members
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.embedding_model_provider.description
+    update: "Embedding model provider (optional), must be configured in the system first, corresponds to the provider field"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.embedding_model.description
+    update: "Embedding model (optional)"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.retrieval_model.description
+    update: "Retrieval model (optional)"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.requestBody.content['application/json'].schema.properties.partial_member_list.description
+    update: "Partial team members ID list (optional)"
+
+  - target: $.paths['/datasets/{dataset_id}'].patch.responses['200'].description
+    update: "Successfully updated knowledge base details"
+
+  - target: $.paths['/datasets/{dataset_id}'].delete
+    update:
+      summary: "Delete Knowledge Base"
+      description: "Delete specified knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post
+    update:
+      summary: "Retrieve Knowledge Base"
+      description: "Retrieve content from specified knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post
+    update:
+      summary: "Create Document by Text"
+      description: "Create a new document from text based on existing knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post
+    update:
+      summary: "Create Document by File"
+      description: "Create a new document from file based on existing knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post
+    update:
+      summary: "Update Document by Text"
+      description: "Update existing document using text"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post
+    update:
+      summary: "Update Document by File"
+      description: "Update existing document using file"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{batch}/indexing-status'].get
+    update:
+      summary: "Get Document Embedding Status"
+      description: "Get document processing and indexing progress status"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get
+    update:
+      summary: "Get Knowledge Base Document List"
+      description: "Get a list of all documents in the specified knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}'].delete
+    update:
+      summary: "Delete Document"
+      description: "Delete specified document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post
+    update:
+      summary: "Add Segment"
+      description: "Add a new segment to specified document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get
+    update:
+      summary: "Query Document Segments"
+      description: "Get all segments of specified document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].delete
+    update:
+      summary: "Delete Document Segment"
+      description: "Delete specified document segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post
+    update:
+      summary: "Create Document Child Segment"
+      description: "Add a new child segment to a specified segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post.parameters[1].description
+    update: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post.parameters[2].description
+    update: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post.requestBody.content['application/json'].schema.properties.content.description
+    update: "Child segment content"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].post.responses['200'].description
+    update: "Successfully created child segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get
+    update:
+      summary: "Query Document Child Segments"
+      description: "Get all child segments of a specified segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[1].description
+    update: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[2].description
+    update: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[3].description
+    update: "Search keyword (optional)"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[4].description
+    update: "Page number (optional, default 1)"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.parameters[5].description
+    update: "Items per page (optional, default 20, max 100)"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.responses['200'].description
+    update: "Successfully retrieved child segment list"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.responses['200'].content['application/json'].schema.properties.total.description
+    update: "Total record count"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.responses['200'].content['application/json'].schema.properties.total_pages.description
+    update: "Total pages"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.responses['200'].content['application/json'].schema.properties.page.description
+    update: "Current page number"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks'].get.responses['200'].content['application/json'].schema.properties.limit.description
+    update: "Items per page"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete
+    update:
+      summary: "Delete Document Child Segment"
+      description: "Delete a specified document child segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete.responses['200'].description
+    update: "Successfully deleted child segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete.parameters[1].description
+    update: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete.parameters[2].description
+    update: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].delete.parameters[3].description
+    update: "Child Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch
+    update:
+      summary: "Update Document Child Segment"
+      description: "Update a specified document child segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.responses['200'].description
+    update: "Successfully updated child segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.parameters[0].description
+    update: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.parameters[1].description
+    update: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.parameters[2].description
+    update: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.parameters[3].description
+    update: "Child Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}'].patch.requestBody.content['application/json'].schema.properties.content.description
+    update: "Child segment content"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post
+    update:
+      summary: "Update Document Segment"
+      description: "Update specified document segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/upload-file'].get
+    update:
+      summary: "Get Upload File"
+      description: "Get upload file information of specified document"
+
+  - target: $.paths['/datasets'].get.parameters[0]
+    update:
+      description: "Page number"
+
+  - target: $.paths['/datasets'].get.parameters[1]
+    update:
+      description: "Number of items per page"
+
+  - target: $.paths['/datasets/{dataset_id}'].delete.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.query
+    update:
+      description: "Search keyword"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model
+    update:
+      description: "Retrieval parameter configuration"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.search_method
+    update:
+      description: "Search method"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.reranking_enable
+    update:
+      description: "Whether to enable Reranking"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.reranking_model.properties.reranking_provider_name
+    update:
+      description: "Rerank model provider"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.reranking_model.properties.reranking_model_name
+    update:
+      description: "Rerank model name"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.weights
+    update:
+      description: "Weight setting for semantic search in hybrid search mode"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.top_k
+    update:
+      description: "Number of results to return"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.score_threshold_enabled
+    update:
+      description: "Whether to enable score threshold"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.retrieval_model.properties.score_threshold
+    update:
+      description: "Score threshold"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.requestBody.content['application/json'].schema.properties.external_retrieval_model
+    update:
+      description: "Unused field"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.requestBody.content['application/json'].schema.properties.name
+    update:
+      description: "Document name"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.requestBody.content['application/json'].schema.properties.text
+    update:
+      description: "Document content"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.requestBody.content['application/json'].schema.properties.indexing_technique
+    update:
+      description: "Indexing technique"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.requestBody.content['application/json'].schema.properties.doc_form
+    update:
+      description: "Document form"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.requestBody.content['application/json'].schema.properties.doc_language
+    update:
+      description: "Document language (required for Q&A mode)"
+
+  - target: $.paths['/datasets'].post.responses['200'].description
+    update: "Successfully created knowledge base"
+
+  - target: $.paths['/datasets'].get.responses['200'].description
+    update: "Successfully retrieved knowledge base list"
+
+  - target: $.paths['/datasets/{dataset_id}'].delete.responses['204'].description
+    update: "Successfully deleted knowledge base"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.responses['200'].description
+    update: "Retrieval successful"
+
+  - target: $.paths['/datasets/{dataset_id}/retrieve'].post.responses['200'].content['application/json'].schema.properties.query.properties.content
+    update:
+      description: "Search keyword"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-text'].post.responses['200'].description
+    update: "Successfully created document"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.responses['200'].description
+    update: "Successfully created document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.responses['200'].description
+    update: "Successfully updated document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post.responses['200'].description
+    update: "Successfully updated document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{batch}/indexing-status'].get.responses['200'].description
+    update: "Successfully retrieved indexing status"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.responses['200'].description
+    update: "Successfully retrieved document list"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}'].delete.responses['200'].description
+    update: "Successfully deleted document"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.responses['200'].description
+    update: "Successfully created segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.responses['200'].description
+    update: "Successfully retrieved segment list"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].delete.responses['200'].description
+    update: "Successfully deleted segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.responses['200'].description
+    update: "Successfully updated segment"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/upload-file'].get.responses['200'].description
+    update: "Successfully retrieved file information"
+
+  - target: $.components.responses.Error400.description
+    update: "Request parameter error"
+
+  - target: $.components.responses.Error403.description
+    update: "Permission error"
+
+  - target: $.components.responses.Error409.description
+    update: "Resource conflict"
+
+  - target: $.components.responses.Error413.description
+    update: "Request entity too large"
+
+  - target: $.components.responses.Error415.description
+    update: "Unsupported media type"
+
+  - target: $.components.responses.Error400.content['application/json'].examples.no_file_uploaded.value.message
+    update: "Please upload your file."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.too_many_files.value.message
+    update: "Only one file is allowed."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.dataset_not_initialized.value.message
+    update: "The dataset is still being initialized or indexing. Please wait a moment."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.high_quality_dataset_only.value.message
+    update: "Current operation only supports 'high-quality' datasets."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.document_already_finished.value.message
+    update: "The document has been processed. Please refresh the page or go to the document details."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.document_indexing.value.message
+    update: "The document is being processed and cannot be edited."
+
+  - target: $.components.responses.Error400.content['application/json'].examples.invalid_metadata.value.message
+    update: "The metadata content is incorrect. Please check and verify."
+
+  - target: $.components.responses.Error403.content['application/json'].examples.archived_document_immutable.value.message
+    update: "The archived document is not editable."
+
+  - target: $.components.responses.Error409.content['application/json'].examples.dataset_name_duplicate.value.message
+    update: "The dataset name already exists. Please modify your dataset name."
+
+  - target: $.components.responses.Error413.content['application/json'].examples.file_too_large.value.message
+    update: "File size exceeded."
+
+  - target: $.components.responses.Error415.content['application/json'].examples.unsupported_file_type.value.message
+    update: "File type not allowed."
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.name
+    update:
+      description: "Document name"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.text
+    update:
+      description: "Document content"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.indexing_technique
+    update:
+      description: "Indexing technique"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.doc_form
+    update:
+      description: "Document form"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.doc_language
+    update:
+      description: "Document language (required for Q&A mode)"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-text'].post.requestBody.content['application/json'].schema.properties.process_rule
+    update:
+      description: "Processing rules"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.requestBody.content['multipart/form-data'].schema.properties.data
+    update:
+      description: "Document configuration information in JSON string format, see CreateDocumentByFileRequestData schema for details"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.requestBody.content['multipart/form-data'].schema.properties.file
+    update:
+      description: "File to be uploaded"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.responses['200'].description
+    update: "Successfully created document"
+
+  - target: $.paths['/datasets/{dataset_id}/document/create-by-file'].post.responses['200'].content['application/json'].schema.properties.batch
+    update:
+      description: "Document batch number"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}'].delete.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}'].delete.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].delete.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].delete.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/upload-file'].get.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/upload-file'].get.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post.requestBody.content['multipart/form-data'].schema.properties.name
+    update:
+      description: "Document name"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.parameters[0]
+    update:
+      description: "Search keyword"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.parameters[2]
+    update:
+      description: "Page number"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.parameters[3]
+    update:
+      description: "Items per page"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post.requestBody.content['multipart/form-data'].schema.properties.file
+    update:
+      description: "File to be uploaded"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{batch}/indexing-status'].get.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{batch}/indexing-status'].get.parameters[1]
+    update:
+      description: "Document batch number"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents'].get.parameters[1]
+    update:
+      description: "Search keyword"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.requestBody.content['application/json'].schema.properties.segments.items.properties.content
+    update:
+      description: "Text content/question content"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.requestBody.content['application/json'].schema.properties.segments.items.properties.answer
+    update:
+      description: "Answer content, optional, required if knowledge base is in Q&A mode"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].post.requestBody.content['application/json'].schema.properties.segments.items.properties.keywords
+    update:
+      description: "Keyword list, optional"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[0]
+    update:
+      description: "Knowledge Base ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[1]
+    update:
+      description: "Document ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[2]
+    update:
+      description: "Search keyword"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[3]
+    update:
+      description: "Segment status"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[4]
+    update:
+      description: "Page numbers"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments'].get.parameters[5]
+    update:
+      description: "Items per page"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].delete.parameters[2]
+    update:
+      description: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.parameters[2]
+    update:
+      description: "Segment ID"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.requestBody.content['application/json'].schema.properties.segment.properties.content
+    update:
+      description: "Text content/question content"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.requestBody.content['application/json'].schema.properties.segment.properties.answer
+    update:
+      description: "Answer content (required for Q&A mode)"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.requestBody.content['application/json'].schema.properties.segment.properties.keywords
+    update:
+      description: "Keyword list"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.requestBody.content['application/json'].schema.properties.segment.properties.enabled
+    update:
+      description: "Whether enabled"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}'].post.requestBody.content['application/json'].schema.properties.segment.properties.regenerate_child_chunks
+    update:
+      description: "Whether to regenerate child segments"
+
+  - target: $.paths['/datasets/{dataset_id}/documents/{document_id}/update-by-file'].post
+    update:
+      summary: "Update Document by File"
+      description: "Update existing document using file"
+      operationId: "updateDocumentByFile"
+      tags:
+        - "Documents"
+
+  - target: $.paths['/datasets/{dataset_id}/metadata'].post
+    update:
+      summary: Create metadata
+      description: Create a new metadata field
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                type:
+                  description: Metadata type
+                name:
+                  description: Metadata name
+
+  - target: $.paths['/datasets/{dataset_id}/metadata'].get
+    update:
+      summary: List dataset metadata
+      description: Get list of metadata fields for a dataset
+
+  - target: $.paths['/datasets/{dataset_id}/metadata/{metadata_id}'].patch
+    update:
+      summary: Update metadata
+      description: Update an existing metadata field
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: New metadata name
+
+  - target: $.paths['/datasets/{dataset_id}/metadata/{metadata_id}'].delete
+    update:
+      summary: Delete metadata
+      description: Delete a metadata field
+
+  - target: $.paths['/datasets/{dataset_id}/metadata/built-in/{action}'].post
+    update:
+      summary: Enable/disable built-in metadata
+      description: Toggle built-in metadata fields
+
+  - target: $.paths['/datasets/{dataset_id}/documents/metadata'].post
+    update:
+      summary: Update document metadata
+      description: Update metadata for multiple documents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                operation_data:
+                  description: List of document metadata operations
+                  items:
+                    properties:
+                      document_id:
+                        description: Document ID
+                      metadata_list:
+                        description: List of metadata to update
+                        items:
+                          properties:
+                            id:
+                              description: Metadata ID
+                            type:
+                              description: Metadata type
+                            value:
+                              description: Metadata value
+                            name:
+                              description: Metadata name
+
+  - target: $.components.schemas.UploadDocument.properties.data_source.properties.type
+    update:
+      description: |
+        Document source type
+        - upload_file: Upload file
+        - notion_import: Notion import
+        - notion_sync: Notion sync
+        - web_page: Web page
+        - web_site: Website
+        - notion_page: Notion page
+        - github_repository: GitHub repository
+        Required, default: upload_file
+
+  - target: $.components.schemas.UploadDocument.properties.data_source.properties.info_list.items.properties.file_id
+    update:
+      description: "File ID"
+
+  - target: $.components.schemas.DocumentSegment.properties.id
+    update:
+      description: "Segment ID"
+
+  - target: $.components.schemas.DocumentSegment.properties.document_id
+    update:
+      description: "Document ID"
+
+  - target: $.components.schemas.DocumentSegment.properties.content
+    update:
+      description: "Segment content"
+
+  - target: $.components.schemas.DocumentSegment.properties.answer
+    update:
+      description: "Answer (if mode is Q&A)"
+
+  - target: $.components.schemas.DocumentSegment.properties.word_count
+    update:
+      description: "Word count"
+
+  - target: $.components.schemas.DocumentSegment.properties.vector
+    update:
+      description: "Vector data"
+
+  - target: $.components.schemas.DocumentSegment.properties.created_by
+    update:
+      description: "Creator"
+
+  - target: $.components.schemas.DocumentSegment.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.DocumentSegment.properties.updated_by
+    update:
+      description: "Last updated by"
+
+  - target: $.components.schemas.DocumentSegment.properties.updated_at
+    update:
+      description: "Last updated timestamp"
+
+  - target: $.components.schemas.DocumentSegment.properties.status
+    update:
+      description: "Segment status"
+
+  - target: $.components.schemas.DocumentSegment.properties.indexing_at
+    update:
+      description: "Indexing timestamp"
+
+  - target: $.components.schemas.DocumentSegment.properties.completed_at
+    update:
+      description: "Completion timestamp"
+
+  - target: $.components.schemas.DocumentSegment.properties.position
+    update:
+      description: "Position"
+
+  - target: $.components.schemas.ProcessRule.properties.rules.properties.segmentation.properties.chunk_overlap
+    update:
+      description: "Segment overlap"
+
+  - target: $.paths['/workspaces/current/models/model-types/text-embedding'].get
+    update:
+      summary: "Get Embedding Model List"
+      description: "Get a list of available embedding models for the current workspace"
+      responses:
+        '200':
+          description: "Successfully retrieved embedding model list"
+
+  - target: $.components.schemas.ChildChunk.properties.id
+    update:
+      description: "Child segment ID"
+
+  - target: $.components.schemas.ChildChunk.properties.segment_id
+    update:
+      description: "Parent segment ID"
+
+  - target: $.components.schemas.ChildChunk.properties.content
+    update:
+      description: "Child segment content"
+
+  - target: $.components.schemas.ChildChunk.properties.word_count
+    update:
+      description: "Word count"
+
+  - target: $.components.schemas.ChildChunk.properties.tokens
+    update:
+      description: "Token count"
+
+  - target: $.components.schemas.ChildChunk.properties.index_node_id
+    update:
+      description: "Index node ID"
+
+  - target: $.components.schemas.ChildChunk.properties.index_node_hash
+    update:
+      description: "Index node hash"
+
+  - target: $.components.schemas.ChildChunk.properties.status
+    update:
+      description: "Status"
+
+  - target: $.components.schemas.ChildChunk.properties.created_by
+    update:
+      description: "Creator"
+
+  - target: $.components.schemas.ChildChunk.properties.created_at
+    update:
+      description: "Creation timestamp"
+
+  - target: $.components.schemas.ChildChunk.properties.indexing_at
+    update:
+      description: "Indexing timestamp"
+
+  - target: $.components.schemas.ChildChunk.properties.completed_at
+    update:
+      description: "Completion timestamp"
+
+  - target: $.components.schemas.ChildChunk.properties.error
+    update:
+      description: "Error message"
+
+  - target: $.components.schemas.ChildChunk.properties.stopped_at
+    update:
+      description: "Stop timestamp"
+
+  - target: $.components.schemas.EmbeddingModel.properties.provider
+    update:
+      description: "Model provider"
+
+  - target: $.components.schemas.EmbeddingModel.properties.label
+    update:
+      description: "Model label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.label.properties.zh_Hans
+    update:
+      description: "Chinese label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.label.properties.en_US
+    update:
+      description: "English label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_small
+    update:
+      description: "Small icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_small.properties.zh_Hans
+    update:
+      description: "Chinese small icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_small.properties.en_US
+    update:
+      description: "English small icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_large
+    update:
+      description: "Large icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_large.properties.zh_Hans
+    update:
+      description: "Chinese large icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.icon_large.properties.en_US
+    update:
+      description: "English large icon"
+
+  - target: $.components.schemas.EmbeddingModel.properties.status
+    update:
+      description: "Status"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models
+    update:
+      description: "Model list"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.model
+    update:
+      description: "Model name"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.label
+    update:
+      description: "Model label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.label.properties.zh_Hans
+    update:
+      description: "Chinese label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.label.properties.en_US
+    update:
+      description: "English label"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.model_type
+    update:
+      description: "Model type"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.features
+    update:
+      description: "Features"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.fetch_from
+    update:
+      description: "Fetch source"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.model_properties
+    update:
+      description: "Model properties"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.model_properties.properties.context_size
+    update:
+      description: "Context size"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.deprecated
+    update:
+      description: "Whether deprecated"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.status
+    update:
+      description: "Status"
+
+  - target: $.components.schemas.EmbeddingModel.properties.models.items.properties.load_balancing_enabled
+    update:
+      description: "Whether load balancing is enabled"

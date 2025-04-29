@@ -1,0 +1,52 @@
+[project]
+name = "dify-openapi"
+version = "1.2.0"
+description = "a client for testing and validating dify openapi schema"
+readme = "README.md"
+authors = [{ name = "straydragon", email = "straydragonl@foxmail.com" }]
+requires-python = ">=3.9"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.10.6",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+    "pytest-cov>=6.0.0",
+    "ipython>=8.18.1",
+    "langchain[openai]>=0.3.20",
+    "pyyaml>=6.0.2",
+    "typer>=0.15.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dify_sdk", "src/dify_sdk_testing"]
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "UP"]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-v --ignore libs --showlocals -x --cov=src --cov-branch --cov-report=xml" # --cov-report=term-missing

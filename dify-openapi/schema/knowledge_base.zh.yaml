@@ -1,0 +1,2316 @@
+openapi: 3.0.0
+info:
+  title: Dify 知识库 API
+  description: |
+    Dify 知识库 API 提供了一系列接口用于管理知识库、文档和检索功能。
+    所有 API 请求都需要在 Authorization HTTP Header 中包含知识库级 API-Key。
+  version: 1.2.0
+
+servers:
+  - url: https://api.dify.ai/v1
+    description: Dify API 服务器
+
+  - url: "{api_url}"
+    variables:
+      api_url:
+        default: https://api.dify.ai/v1
+        description: 自定义 API 服务器 URL
+
+  - url: http://ai.urchinet.lan/v1
+    description: author of dify-openapi dev server
+
+security:
+  - bearerApiKeyAuth: []
+
+components:
+  securitySchemes:
+    bearerApiKeyAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: 错误代码
+        status:
+          type: integer
+          description: HTTP 状态码
+        message:
+          type: string
+          description: 错误信息描述
+      required:
+        - code
+        - status
+        - message
+
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 知识库 ID
+        name:
+          type: string
+          description: 知识库名称
+        description:
+          type: string
+          nullable: true
+          description: 知识库描述
+        provider:
+          type: string
+          enum: [vendor, external]
+          description: 知识库提供者
+        permission:
+          type: string
+          enum: [only_me, all_team_members, partial_members]
+          description: 访问权限
+        data_source_type:
+          type: string
+          nullable: true
+          description: 数据源类型
+        indexing_technique:
+          type: string
+          nullable: true
+          enum: [high_quality, economy]
+          description: 索引技术
+        app_count:
+          type: integer
+          description: 应用数量
+        document_count:
+          type: integer
+          description: 文档数量
+        word_count:
+          type: integer
+          description: 字数统计
+        created_by:
+          type: string
+          description: 创建者 ID
+        created_at:
+          type: number
+          description: 创建时间戳
+        updated_by:
+          type: string
+          description: 最后更新者 ID
+        updated_at:
+          type: number
+          description: 最后更新时间戳
+        embedding_model:
+          type: string
+          nullable: true
+          description: Embedding 模型名称
+        embedding_model_provider:
+          type: string
+          nullable: true
+          description: Embedding 模型提供商
+        embedding_available:
+          type: boolean
+          nullable: true
+          description: Embedding 是否可用
+        retrieval_model_dict:
+          type: object
+          description: 检索模型配置
+          properties:
+            search_method:
+              type: string
+              description: 检索方法
+            reranking_enable:
+              type: boolean
+              description: 是否启用重排序
+            reranking_mode:
+              type: string
+              nullable: true
+              description: 重排序模式
+            reranking_model:
+              type: object
+              description: 重排序模型
+              properties:
+                reranking_provider_name:
+                  type: string
+                  description: 重排序模型提供商
+                reranking_model_name:
+                  type: string
+                  description: 重排序模型名称
+            weights:
+              type: number
+              nullable: true
+              description: 权重
+            top_k:
+              type: integer
+              description: 返回结果数量
+            score_threshold_enabled:
+              type: boolean
+              description: 是否启用分数阈值
+            score_threshold:
+              type: number
+              nullable: true
+              description: 分数阈值
+        tags:
+          type: array
+          description: 标签列表
+          items:
+            type: string
+        doc_form:
+          type: string
+          nullable: true
+          description: 文档形式
+        external_knowledge_info:
+          type: object
+          description: 外部知识库信息
+          properties:
+            external_knowledge_id:
+              type: string
+              nullable: true
+              description: 外部知识库ID
+            external_knowledge_api_id:
+              type: string
+              nullable: true
+              description: 外部知识库API ID
+            external_knowledge_api_name:
+              type: string
+              nullable: true
+              description: 外部知识库API名称
+            external_knowledge_api_endpoint:
+              type: string
+              nullable: true
+              description: 外部知识库API端点
+        external_retrieval_model:
+          type: object
+          description: 外部检索模型
+          properties:
+            top_k:
+              type: integer
+              description: 返回结果数量
+            score_threshold:
+              type: number
+              description: 分数阈值
+            score_threshold_enabled:
+              type: boolean
+              nullable: true
+              description: 是否启用分数阈值
+
+    DatasetList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Dataset"
+        has_more:
+          type: boolean
+          description: 是否还有更多数据
+        limit:
+          type: integer
+          description: 每页数量限制
+        total:
+          type: integer
+          description: 总记录数
+        page:
+          type: integer
+          description: 当前页码
+
+    CreateDatasetRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: 知识库名称（必填）
+        description:
+          type: string
+          description: 知识库描述（选填）
+        indexing_technique:
+          type: string
+          enum: [high_quality, economy]
+          description: |
+            索引模式（选填，建议填写）
+            - high_quality: 高质量
+            - economy: 经济
+        permission:
+          type: string
+          enum: [only_me, all_team_members, partial_members]
+          default: only_me
+          description: |
+            权限（选填，默认 only_me）
+            - only_me: 仅自己
+            - all_team_members: 所有团队成员
+            - partial_members: 部分团队成员
+        provider:
+          type: string
+          enum: [vendor, external]
+          default: vendor
+          description: |
+            Provider（选填，默认 vendor）
+            - vendor: 上传文件
+            - external: 外部知识库
+        external_knowledge_api_id:
+          type: string
+          description: 外部知识库 API_ID（选填）
+        external_knowledge_id:
+          type: string
+          description: 外部知识库 ID（选填）
+
+    RetrievalModel:
+      type: object
+      properties:
+        search_method:
+          type: string
+          enum:
+            [keyword_search, semantic_search, full_text_search, hybrid_search]
+          description: |
+            检索方法：
+            - keyword_search: 关键字检索
+            - semantic_search: 语义检索
+            - full_text_search: 全文检索
+            - hybrid_search: 混合检索
+        reranking_enable:
+          type: boolean
+          description: 是否启用 Reranking，非必填，如果检索模式为 semantic_search 模式或者 hybrid_search 则传值
+        reranking_model:
+          type: object
+          properties:
+            reranking_provider_name:
+              type: string
+              description: Rerank 模型提供商
+            reranking_model_name:
+              type: string
+              description: Rerank 模型名称
+          description: Rerank 模型配置，非必填，如果启用了 reranking 则传值
+        weights:
+          type: number
+          format: float
+          description: 混合检索模式下语意检索的权重设置
+        top_k:
+          type: integer
+          description: 返回结果数量，非必填
+        score_threshold_enabled:
+          type: boolean
+          description: 是否开启 score 阈值
+        score_threshold:
+          type: number
+          format: float
+          description: Score 阈值
+
+    ProcessRule:
+      type: object
+      required:
+        - mode
+      properties:
+        mode:
+          type: string
+          enum: [automatic, custom]
+          description: |
+            清洗、分段模式
+            - automatic: 自动
+            - custom: 自定义
+        rules:
+          type: object
+          properties:
+            pre_processing_rules:
+              type: array
+              items:
+                type: object
+                description: 预处理规则列表
+                properties:
+                  id:
+                    type: string
+                    description: 规则ID
+                  enabled:
+                    type: boolean
+                    description: 是否启用
+                  name:
+                    type: string
+                    description: 规则名称
+            segmentation:
+              type: object
+              description: 分段规则
+              properties:
+                separator:
+                  type: string
+                  description: 分段标识符
+                max_tokens:
+                  type: integer
+                  description: 最大长度 (token)
+                chunk_overlap:
+                  type: integer
+                  description: 分段重叠
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 文档ID
+        dataset_id:
+          type: string
+          description: 所属知识库ID
+        name:
+          type: string
+          description: 文档名称
+        data_source_type:
+          type: string
+          nullable: true
+          description: 数据源类型
+        display_status:
+          type: string
+          enum: [indexing, index_failed, indexed, cleaning, clean_failed, cleaned, parsing, parse_failed, parsed, splitting, split_failed, splitted, embedding, embedding_failed, embedded]
+          description: 状态
+        enabled:
+          type: boolean
+          description: 是否启用
+        word_count:
+          type: integer
+          description: 字数统计
+        segment_count:
+          type: integer
+          nullable: true
+          description: 分段数量
+        created_from:
+          type: string
+          description: 创建来源
+        created_by:
+          type: string
+          description: 创建者
+        created_at:
+          type: number
+          description: 创建时间戳
+        updated_at:
+          type: number
+          description: 更新时间戳
+        archived:
+          type: boolean
+          description: 是否归档
+        batch:
+          type: string
+          nullable: true
+          description: 批次号
+        hit_count:
+          type: integer
+          description: 命中次数
+
+    Segment:
+      type: object
+      properties:
+        id:
+          type: string
+        position:
+          type: integer
+        document_id:
+          type: string
+        content:
+          type: string
+        answer:
+          type: string
+          nullable: true
+        word_count:
+          type: integer
+        tokens:
+          type: integer
+        keywords:
+          type: array
+          items:
+            type: string
+        index_node_id:
+          type: string
+        index_node_hash:
+          type: string
+        hit_count:
+          type: integer
+        enabled:
+          type: boolean
+        disabled_at:
+          type: number
+          nullable: true
+        disabled_by:
+          type: string
+          nullable: true
+        status:
+          type: string
+        created_by:
+          type: string
+        created_at:
+          type: number
+          nullable: true
+        indexing_at:
+          type: number
+          nullable: true
+        completed_at:
+          type: number
+          nullable: true
+        error:
+          type: string
+          nullable: true
+        stopped_at:
+          type: number
+          nullable: true
+
+    ChildChunk:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 子分段ID
+        segment_id:
+          type: string
+          description: 父分段ID
+        content:
+          type: string
+          description: 子分段内容
+        word_count:
+          type: integer
+          description: 字数统计
+        tokens:
+          type: integer
+          description: token数量
+        index_node_id:
+          type: string
+          description: 索引节点ID
+        index_node_hash:
+          type: string
+          description: 索引节点哈希
+        status:
+          type: string
+          description: 状态
+        created_by:
+          type: string
+          description: 创建者
+        created_at:
+          type: number
+          description: 创建时间戳
+        indexing_at:
+          type: number
+          description: 索引时间戳
+        completed_at:
+          type: number
+          description: 完成时间戳
+        error:
+          type: string
+          nullable: true
+          description: 错误信息
+        stopped_at:
+          type: number
+          nullable: true
+          description: 停止时间戳
+
+    EmbeddingModel:
+      type: object
+      properties:
+        provider:
+          type: string
+          description: 模型提供商
+        label:
+          type: object
+          properties:
+            zh_Hans:
+              type: string
+              description: 中文标签
+            en_US:
+              type: string
+              description: 英文标签
+        icon_small:
+          type: object
+          properties:
+            zh_Hans:
+              type: string
+              description: 中文小图标
+            en_US:
+              type: string
+              description: 英文小图标
+        icon_large:
+          type: object
+          properties:
+            zh_Hans:
+              type: string
+              description: 中文大图标
+            en_US:
+              type: string
+              description: 英文大图标
+        status:
+          type: string
+          description: 状态
+        models:
+          type: array
+          description: 模型列表
+          items:
+            type: object
+            properties:
+              model:
+                type: string
+                description: 模型名称
+              label:
+                type: object
+                properties:
+                  zh_Hans:
+                    type: string
+                    description: 中文标签
+                  en_US:
+                    type: string
+                    description: 英文标签
+              model_type:
+                type: string
+                description: 模型类型
+              features:
+                type: object
+                nullable: true
+                description: 特性
+              fetch_from:
+                type: string
+                description: 获取来源
+              model_properties:
+                type: object
+                description: 模型属性
+                properties:
+                  context_size:
+                    type: integer
+                    description: 上下文大小
+              deprecated:
+                type: boolean
+                description: 是否已弃用
+              status:
+                type: string
+                description: 状态
+              load_balancing_enabled:
+                type: boolean
+                description: 是否启用负载均衡
+
+    UploadFile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 文件 ID
+        name:
+          type: string
+          description: 文件名称
+        size:
+          type: integer
+          description: 文件大小
+        extension:
+          type: string
+          description: 文件扩展名
+        url:
+          type: string
+          description: 预览 URL
+        download_url:
+          type: string
+          description: 下载 URL
+        mime_type:
+          type: string
+          description: MIME 类型
+        created_by:
+          type: string
+          description: 创建者 ID
+        created_at:
+          type: number
+          description: 创建时间戳
+
+    CreateDocumentByFileRequestData:
+      example: |
+        {"indexing_technique":"high_quality","process_rule":{"rules":{"pre_processing_rules":[{"id":"remove_extra_spaces","enabled":true},{"id":"remove_urls_emails","enabled":true}],"segmentation":{"separator":"###","max_tokens":500}},"mode":"custom"}}
+      type: object
+      description: |
+        文档配置信息，JSON字符串格式，包含以下字段：
+        - original_document_id: 源文档ID（选填），用于重新上传或修改文档配置
+        - indexing_technique: 索引方式（high_quality/economy）
+        - doc_form: 索引内容形式（text_model/hierarchical_model/qa_model）
+        - doc_language: 文档语言（Q&A模式必填）
+        - process_rule: 处理规则
+      properties:
+        original_document_id:
+          type: string
+          description: 源文档ID，用于重新上传或修改文档配置
+        indexing_technique:
+          type: string
+          enum: [high_quality, economy]
+          description: 索引方式
+        doc_form:
+          type: string
+          enum: [text_model, hierarchical_model, qa_model]
+          description: 索引内容形式
+        doc_language:
+          type: string
+          description: 文档语言（Q&A模式必填）
+        process_rule:
+          $ref: "#/components/schemas/ProcessRule"
+        retrieval_model:
+          $ref: "#/components/schemas/RetrievalModel"
+        embedding_model:
+          type: string
+          description: Embedding模型名称
+        embedding_model_provider:
+          type: string
+          description: Embedding模型供应商
+
+    UploadDocument:
+      type: object
+      properties:
+        data_source:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [upload_file, notion_import, notion_sync, web_page, web_site, notion_page, github_repository]
+              description: |
+                文档来源类型
+                - upload_file: 上传文件
+                - notion_import: Notion 导入
+                - notion_sync: Notion 同步
+                - web_page: 网页
+                - web_site: 网站
+                - notion_page: Notion 页面
+                - github_repository: GitHub 仓库
+                必填，默认：upload_file
+            info_list:
+              type: array
+              items:
+                type: object
+                properties:
+                  file_id:
+                    type: string
+                    description: 文件ID
+
+    DocumentSegment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 数据段ID
+        document_id:
+          type: string
+          description: 文档ID
+        content:
+          type: string
+          description: 数据段内容
+        answer:
+          type: string
+          nullable: true
+          description: 问题答案（如果模式为QA）
+        word_count:
+          type: integer
+          description: 字数统计
+        vector:
+          type: array
+          nullable: true
+          items:
+            type: number
+            format: float
+          description: 向量数据
+        created_by:
+          type: string
+          description: 创建者
+        created_at:
+          type: number
+          description: 创建时间戳
+        updated_by:
+          type: string
+          description: 更新者
+        updated_at:
+          type: number
+          description: 更新时间戳
+        status:
+          type: string
+          enum: [waiting, completed, error, processing]
+          description: 状态
+        indexing_at:
+          type: number
+          nullable: true
+          description: 索引时间戳
+        completed_at:
+          type: number
+          nullable: true
+          description: 完成时间戳
+        position:
+          type: integer
+          description: 位置序号
+
+  responses:
+    Error400:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            no_file_uploaded:
+              value:
+                code: no_file_uploaded
+                status: 400
+                message: Please upload your file.
+            too_many_files:
+              value:
+                code: too_many_files
+                status: 400
+                message: Only one file is allowed.
+            dataset_not_initialized:
+              value:
+                code: dataset_not_initialized
+                status: 400
+                message: The dataset is still being initialized or indexing. Please wait a moment.
+            high_quality_dataset_only:
+              value:
+                code: high_quality_dataset_only
+                status: 400
+                message: Current operation only supports 'high-quality' datasets.
+            document_already_finished:
+              value:
+                code: document_already_finished
+                status: 400
+                message: The document has been processed. Please refresh the page or go to the document details.
+            document_indexing:
+              value:
+                code: document_indexing
+                status: 400
+                message: The document is being processed and cannot be edited.
+            invalid_metadata:
+              value:
+                code: invalid_metadata
+                status: 400
+                message: The metadata content is incorrect. Please check and verify.
+
+    Error403:
+      description: 权限错误
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            archived_document_immutable:
+              value:
+                code: archived_document_immutable
+                status: 403
+                message: The archived document is not editable.
+
+    Error409:
+      description: 资源冲突
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            dataset_name_duplicate:
+              value:
+                code: dataset_name_duplicate
+                status: 409
+                message: The dataset name already exists. Please modify your dataset name.
+
+    Error413:
+      description: 请求实体过大
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            file_too_large:
+              value:
+                code: file_too_large
+                status: 413
+                message: File size exceeded.
+
+    Error415:
+      description: 不支持的媒体类型
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          examples:
+            unsupported_file_type:
+              value:
+                code: unsupported_file_type
+                status: 415
+                message: File type not allowed.
+
+paths:
+  /datasets:
+    post:
+      summary: 创建空知识库
+      description: 创建一个新的空知识库
+      operationId: createEmptyDataset
+      tags:
+        - Datasets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDatasetRequest"
+      responses:
+        "200":
+          description: 成功创建知识库
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dataset"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "409":
+          $ref: "#/components/responses/Error409"
+
+    get:
+      summary: 获取知识库列表
+      description: 获取所有知识库的列表
+      operationId: getDatasetList
+      tags:
+        - Datasets
+      parameters:
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: 每页返回条数
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: 成功获取知识库列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DatasetList"
+        "400":
+          $ref: "#/components/responses/Error400"
+
+  /datasets/{dataset_id}:
+    get:
+      summary: 查看知识库详情
+      description: 获取指定知识库的详细信息
+      tags:
+        - Datasets
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功获取知识库详情
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dataset"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    patch:
+      summary: 修改知识库详情
+      description: 修改指定知识库的详细信息
+      tags:
+        - Datasets
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 知识库名称（选填）
+                indexing_technique:
+                  type: string
+                  enum: [high_quality, economy]
+                  description: |
+                    索引模式（选填，建议填写）
+                    - high_quality: 高质量
+                    - economy: 经济
+                permission:
+                  type: string
+                  enum: [only_me, all_team_members, partial_members]
+                  description: |
+                    权限（选填，默认 only_me）
+                    - only_me: 仅自己
+                    - all_team_members: 所有团队成员
+                    - partial_members: 部分团队成员
+                embedding_model_provider:
+                  type: string
+                  description: 嵌入模型提供商（选填）, 必须先在系统内设定好接入的模型，对应的是provider字段
+                embedding_model:
+                  type: string
+                  description: 嵌入模型（选填）
+                retrieval_model:
+                  type: string
+                  description: 检索模型（选填）
+                partial_member_list:
+                  type: array
+                  description: 部分团队成员 ID 列表（选填）
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: 成功修改知识库详情
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dataset"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    delete:
+      summary: 删除知识库
+      description: 删除指定的知识库
+      operationId: deleteDataset
+      tags:
+        - Datasets
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 成功删除知识库
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/retrieve:
+    post:
+      summary: 检索知识库
+      description: 在指定知识库中进行内容检索
+      operationId: retrieveDataset
+      tags:
+        - Datasets
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: 检索关键词
+                retrieval_model:
+                  type: object
+                  description: 检索参数配置
+                  properties:
+                    search_method:
+                      type: string
+                      enum:
+                        - keyword_search
+                        - semantic_search
+                        - full_text_search
+                        - hybrid_search
+                      description: 检索方法
+                    reranking_enable:
+                      type: boolean
+                      description: 是否启用 Reranking
+                    reranking_model:
+                      type: object
+                      properties:
+                        reranking_provider_name:
+                          type: string
+                          description: Rerank 模型提供商
+                        reranking_model_name:
+                          type: string
+                          description: Rerank 模型名称
+                    weights:
+                      type: number
+                      format: float
+                      description: 混合检索模式下语意检索的权重设置
+                    top_k:
+                      type: integer
+                      description: 返回结果数量
+                    score_threshold_enabled:
+                      type: boolean
+                      description: 是否开启 score 阈值
+                    score_threshold:
+                      type: number
+                      format: float
+                      description: Score 阈值
+                external_retrieval_model:
+                  type: object
+                  description: 未启用字段
+      responses:
+        "200":
+          description: 检索成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  query:
+                    type: object
+                    properties:
+                      content:
+                        type: string
+                        description: 检索关键词
+                  records:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        segment:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            position:
+                              type: integer
+                            document_id:
+                              type: string
+                            content:
+                              type: string
+                            answer:
+                              type: string
+                              nullable: true
+                            word_count:
+                              type: integer
+                            tokens:
+                              type: integer
+                            keywords:
+                              type: array
+                              items:
+                                type: string
+                            index_node_id:
+                              type: string
+                            index_node_hash:
+                              type: string
+                            hit_count:
+                              type: integer
+                            enabled:
+                              type: boolean
+                            disabled_at:
+                              type: number
+                              nullable: true
+                            disabled_by:
+                              type: string
+                              nullable: true
+                            status:
+                              type: string
+                            created_by:
+                              type: string
+                            created_at:
+                              type: number
+                              nullable: true
+                            indexing_at:
+                              type: number
+                              nullable: true
+                            completed_at:
+                              type: number
+                              nullable: true
+                            error:
+                              type: string
+                              nullable: true
+                            stopped_at:
+                              type: number
+                              nullable: true
+                            document:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                data_source_type:
+                                  type: string
+                                name:
+                                  type: string
+                        score:
+                          type: number
+                          format: float
+                        tsne_position:
+                          type: object
+                          nullable: true
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/document/create-by-text:
+    post:
+      summary: 通过文本创建文档
+      description: 基于已存在知识库，通过文本创建新的文档
+      operationId: createDocumentByText
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - text
+                - indexing_technique
+                - process_rule
+              properties:
+                name:
+                  type: string
+                  description: 文档名称
+                text:
+                  type: string
+                  description: 文档内容
+                indexing_technique:
+                  type: string
+                  enum:
+                    - high_quality
+                    - economy
+                  description: 索引方式
+                doc_form:
+                  type: string
+                  enum:
+                    - text_model
+                    - hierarchical_model
+                    - qa_model
+                  description: 索引内容的形式
+                doc_language:
+                  type: string
+                  description: 文档语言（Q&A 模式下必填）
+                process_rule:
+                  $ref: "#/components/schemas/ProcessRule"
+      responses:
+        "200":
+          description: 成功创建文档
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document:
+                    $ref: "#/components/schemas/Document"
+                  batch:
+                    type: string
+        "400":
+          $ref: "#/components/responses/Error400"
+        "413":
+          $ref: "#/components/responses/Error413"
+        "415":
+          $ref: "#/components/responses/Error415"
+
+  /datasets/{dataset_id}/document/create-by-file:
+    post:
+      summary: 通过文件创建文档
+      description: 基于已存在知识库，通过文件创建新的文档
+      operationId: createDocumentByFile
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                data:
+                  # NOTE: `format: json` maybe not force to impl in many sdks , use `type: string` get more compatible with some sdk, if your generator can handle this, please use `type: object` for better type checking and completion
+                  # type: object
+                  type: string
+                  format: json
+                  description: ref #/components/schemas/CreateDocumentByFileRequestData
+
+                file:
+                  type: string
+                  format: binary
+                  description: 需要上传的文件
+      responses:
+        "200":
+          description: 成功创建文档
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document:
+                    $ref: "#/components/schemas/Document"
+                  batch:
+                    type: string
+                    description: 文档批次号
+        "400":
+          $ref: "#/components/responses/Error400"
+        "413":
+          $ref: "#/components/responses/Error413"
+        "415":
+          $ref: "#/components/responses/Error415"
+
+  /datasets/{dataset_id}/documents/{document_id}/update-by-text:
+    post:
+      summary: 通过文本更新文档
+      description: 通过文本更新已存在的文档
+      operationId: updateDocumentByText
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 文档名称
+                text:
+                  type: string
+                  description: 文档内容
+                indexing_technique:
+                  type: string
+                  enum:
+                    - high_quality
+                    - economy
+                  description: 索引方式
+                doc_form:
+                  type: string
+                  enum:
+                    - text_model
+                    - hierarchical_model
+                    - qa_model
+                  description: 索引内容的形式
+                doc_language:
+                  type: string
+                  description: 文档语言（Q&A 模式下必填）
+                process_rule:
+                  required: true # TODO: (E001) 必须提供 process_rule 参数, 否则会报错
+                  $ref: "#/components/schemas/ProcessRule"
+      responses:
+        "200":
+          description: 成功更新文档
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document:
+                    $ref: "#/components/schemas/Document"
+                  batch:
+                    type: string
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/documents/{document_id}/update-by-file:
+    post: # TODO: (E001) 接口有bug, https://github.com/langgenius/dify/pull/14243
+      summary: 通过文件更新文档
+      description: 通过文件更新已存在的文档
+      operationId: updateDocumentByFile
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                name:
+                  type: string
+                  description: 文档名称
+                file:
+                  type: string
+                  format: binary
+                  description: 上传的文件
+                process_rule:
+                  $ref: "#/components/schemas/ProcessRule"
+      responses:
+        "200":
+          description: 成功更新文档
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document:
+                    $ref: "#/components/schemas/Document"
+                  batch:
+                    type: string
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+        "413":
+          $ref: "#/components/responses/Error413"
+        "415":
+          $ref: "#/components/responses/Error415"
+
+  /datasets/{dataset_id}/documents/{batch}/indexing-status:
+    get:
+      summary: 获取文档嵌入状态
+      description: 获取文档处理和索引的进度状态
+      operationId: getDocumentIndexingStatus
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: batch
+          in: path
+          description: 上传文档的批次号
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功获取索引状态
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        indexing_status:
+                          type: string
+                        processing_started_at:
+                          type: number
+                          format: float
+                        parsing_completed_at:
+                          type: number
+                          format: float
+                        cleaning_completed_at:
+                          type: number
+                          format: float
+                        splitting_completed_at:
+                          type: number
+                          format: float
+                        completed_at:
+                          type: number
+                          format: float
+                          nullable: true
+                        paused_at:
+                          type: number
+                          format: float
+                          nullable: true
+                        error:
+                          type: string
+                          nullable: true
+                        stopped_at:
+                          type: number
+                          format: float
+                          nullable: true
+                        completed_segments:
+                          type: integer
+                        total_segments:
+                          type: integer
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/documents:
+    get:
+      summary: 获取知识库文档列表
+      description: 获取指定知识库下的所有文档列表
+      operationId: getDocumentList
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: 搜索关键词
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: 每页返回条数
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: 成功获取文档列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Document"
+                  has_more:
+                    type: boolean
+                  limit:
+                    type: integer
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+        "400":
+          $ref: "#/components/responses/Error400"
+
+  /datasets/{dataset_id}/documents/{document_id}:
+    delete:
+      summary: 删除文档
+      description: 删除指定的文档
+      operationId: deleteDocument
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功删除文档
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    enum: [success]
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/documents/{document_id}/segments:
+    post:
+      summary: 新增分段
+      description: 为指定文档新增分段
+      operationId: createSegments
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - segments
+              properties:
+                segments:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - content
+                    properties:
+                      content:
+                        type: string
+                        description: 文本内容/问题内容
+                      answer:
+                        type: string
+                        description: 答案内容，非必填，如果知识库的模式为 Q&A 模式则传值
+                      keywords:
+                        type: array
+                        items:
+                          type: string
+                        description: 关键字列表，非必填
+      responses:
+        "200":
+          description: 成功创建分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Segment"
+                  doc_form:
+                    type: string
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    get:
+      summary: 查询文档分段
+      description: 获取指定文档的所有分段
+      operationId: getSegments
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: 搜索关键词
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: 分段状态
+          required: false
+          schema:
+            type: string
+            enum: [completed]
+        - name: page
+          in: query
+          description: 页码
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: 每页返回条数
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: 成功获取分段列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Segment"
+                  doc_form:
+                    type: string
+                  has_more:
+                    type: boolean
+                  limit:
+                    type: integer
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+
+        "400":
+          $ref: "#/components/responses/Error400"
+
+  /datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks:
+    post:
+      summary: 新增文档子分段
+      description: 为指定分段新增子分段
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  description: 子分段内容
+      responses:
+        "200":
+          description: 成功创建子分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ChildChunk"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    get:
+      summary: 查询文档子分段
+      description: 获取指定分段的所有子分段
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: 搜索关键词（选填）
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 页码（选填，默认1）
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          description: 每页数量（选填，默认20，最大100）
+          required: false
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: 成功获取子分段列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ChildChunk"
+                  total:
+                    type: integer
+                    description: 总记录数
+                  total_pages:
+                    type: integer
+                    description: 总页数
+                  page:
+                    type: integer
+                    description: 当前页码
+                  limit:
+                    type: integer
+                    description: 每页数量
+        "400":
+          $ref: "#/components/responses/Error400"
+
+  /datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}/child_chunks/{child_chunk_id}:
+    delete:
+      summary: 删除文档子分段
+      description: 删除指定的文档子分段
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+        - name: child_chunk_id
+          in: path
+          description: 子分段 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功删除子分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    enum: [success]
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    patch:
+      summary: 更新文档子分段
+      description: 更新指定的文档子分段
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+        - name: child_chunk_id
+          in: path
+          description: 子分段 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  description: 子分段内容
+      responses:
+        "200":
+          description: 成功更新子分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/ChildChunk"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/documents/{document_id}/segments/{segment_id}:
+    delete:
+      summary: 删除文档分段
+      description: 删除指定的文档分段
+      operationId: deleteSegment
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功删除分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    enum: [success]
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+    post:
+      summary: 更新文档分段
+      description: 更新指定的文档分段
+      operationId: updateSegment
+      tags:
+        - Segments
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+        - name: segment_id
+          in: path
+          description: 分段 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - segment
+              properties:
+                segment:
+                  type: object
+                  properties:
+                    content:
+                      type: string
+                      description: 文本内容/问题内容
+                    answer:
+                      type: string
+                      description: 答案内容（Q&A 模式必填）
+                    keywords:
+                      type: array
+                      items:
+                        type: string
+                      description: 关键字列表
+                    enabled:
+                      type: boolean
+                      description: 是否启用
+                    regenerate_child_chunks:
+                      type: boolean
+                      description: 是否重新生成子分段
+      responses:
+        "200":
+          description: 成功更新分段
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Segment"
+                  doc_form:
+                    type: string
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/documents/{document_id}/upload-file:
+    get:
+      summary: 获取上传文件
+      description: 获取指定文档的上传文件信息
+      operationId: getUploadFile
+      tags:
+        - Documents
+      parameters:
+        - name: dataset_id
+          in: path
+          description: 知识库 ID
+          required: true
+          schema:
+            type: string
+        - name: document_id
+          in: path
+          description: 文档 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 成功获取文件信息
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadFile"
+        "400":
+          $ref: "#/components/responses/Error400"
+        "403":
+          $ref: "#/components/responses/Error403"
+
+  /datasets/{dataset_id}/metadata:
+    post:
+      tags:
+        - metadata
+      summary: 新增元数据
+      operationId: createMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - name
+              properties:
+                type:
+                  type: string
+                  description: 元数据类型
+                name:
+                  type: string
+                  description: 元数据名称
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  name:
+                    type: string
+
+    get:
+      tags:
+        - metadata
+      summary: 查询知识库元数据列表
+      operationId: listDatasetMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  doc_metadata:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        type:
+                          type: string
+                        use_count:
+                          type: integer
+                  built_in_field_enabled:
+                    type: boolean
+
+  /workspaces/current/models/model-types/text-embedding:
+    get:
+      summary: 获取嵌入模型列表
+      description: 获取当前工作空间可用的嵌入模型列表
+      tags:
+        - Models
+      responses:
+        "200":
+          description: 成功获取嵌入模型列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/EmbeddingModel"
+        "400":
+          $ref: "#/components/responses/Error400"
+
+  /datasets/{dataset_id}/metadata/{metadata_id}:
+    patch:
+      tags:
+        - metadata
+      summary: 更新元数据
+      operationId: updateMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: metadata_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: 元数据名称
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  type:
+                    type: string
+                  name:
+                    type: string
+
+    delete:
+      tags:
+        - metadata
+      summary: 删除元数据
+      operationId: deleteMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: metadata_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+
+  /datasets/{dataset_id}/metadata/built-in/{action}:
+    post:
+      tags:
+        - metadata
+      summary: 启用/禁用内置元数据
+      operationId: toggleBuiltInMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: action
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [enable, disable]
+      responses:
+        '204':
+          description: No Content
+
+  /datasets/{dataset_id}/documents/metadata:
+    post:
+      tags:
+        - metadata
+      summary: 更新文档元数据
+      operationId: updateDocumentsMetadata
+      parameters:
+        - name: dataset_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                operation_data:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - document_id
+                      - metadata_list
+                    properties:
+                      document_id:
+                        type: string
+                      metadata_list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            type:
+                              type: string
+                            value:
+                              type: string
+                            name:
+                              type: string
+      responses:
+        '204':
+          description: No Content

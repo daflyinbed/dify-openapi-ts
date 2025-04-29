@@ -1,0 +1,25 @@
+apis:
+  app_advanced_chat@v1.2.0:
+    root: ./dify-openapi/schema/app_advanced_chat.en.yaml
+    x-openapi-ts:
+      output: ./generated/app_advanced_chat.ts
+  app_chat@v1.2.0:
+    root: ./dify-openapi/schema/app_chat.en.yaml
+    x-openapi-ts:
+      output: ./generated/app_chat.ts
+  app_generation@v1.2.0:
+    root: ./dify-openapi/schema/app_generation.en.yaml
+    x-openapi-ts:
+      output: ./generated/app_generation.ts
+  app_workflow@v1.2.0:
+    root: ./dify-openapi/schema/app_workflow.en.yaml
+    x-openapi-ts:
+      output: ./generated/app_workflow.ts
+  external_knowledge_base@v1.2.0:
+    root: ./dify-openapi/schema/external_knowledge_base.en.yaml
+    x-openapi-ts:
+      output: ./generated/external_knowledge_base.ts
+  knowledge_base@v1.2.0:
+    root: ./dify-openapi/schema/knowledge_base.en.yaml
+    x-openapi-ts:
+      output: ./generated/knowledge_base.ts

@@ -2,9 +2,10 @@
   "name": "@xwbx/dify-openapi-ts",
   "type": "module",
   "version": "0.0.1",
+  "private": "false",
   "packageManager": "pnpm@10.9.0",
   "description": "",
-  "author": "",
+  "author": "xwbx <1677759063@qq.com> (https://github.com/daflyinbed/)",
   "license": "MIT",
   "homepage": "https://github.com/daflyinbed/dify-client#readme",
   "repository": {
